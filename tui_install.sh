@@ -17,22 +17,30 @@ NC='\033[0m'
 # ------------------------------------------------------------------------------
 
 # Driver Selection
-DRIVER_CHOICE=$(whiptail --title "Driver Selection" --menu "Which GPU drivers do you need?" 15 60 4 \
-"AMD" "Vulkan-Radeon, Mesa (Recommended for you)" \
-"NVIDIA" "Proprietary NVIDIA drivers" \
-"Intel" "Vulkan-Intel, Mesa" \
-"None" "Skip driver installation" 3>&1 1>&2 2>&3)
+if [[ -z "$DRIVER_CHOICE" ]]; then
+    DRIVER_CHOICE=$(whiptail --title "Driver Selection" --menu "Which GPU drivers do you need?" 15 60 4 \
+    "AMD" "Vulkan-Radeon, Mesa (Recommended for you)" \
+    "NVIDIA" "Proprietary NVIDIA drivers" \
+    "Intel" "Vulkan-Intel, Mesa" \
+    "None" "Skip driver installation" 3>&1 1>&2 2>&3)
+fi
 
 # Keyboard Layout
-KB_LAYOUT=$(whiptail --title "Keyboard Layout" --inputbox "Enter your keyboard layout (e.g., us, gb, fr, de):" 10 60 "us" 3>&1 1>&2 2>&3)
+if [[ -z "$KB_LAYOUT" ]]; then
+    KB_LAYOUT=$(whiptail --title "Keyboard Layout" --inputbox "Enter your keyboard layout (e.g., us, gb, fr, de):" 10 60 "us" 3>&1 1>&2 2>&3)
+fi
 
 # City / Timezone
-CITY_TIMEZONE=$(whiptail --title "Timezone" --inputbox "Enter your Region/City (e.g., Africa/Lagos, Europe/London, America/New_York):" 10 60 "Africa/Lagos" 3>&1 1>&2 2>&3)
+if [[ -z "$CITY_TIMEZONE" ]]; then
+    CITY_TIMEZONE=$(whiptail --title "Timezone" --inputbox "Enter your Region/City (e.g., Africa/Lagos, Europe/London, America/New_York):" 10 60 "Africa/Lagos" 3>&1 1>&2 2>&3)
+fi
 
-# Confirm Proceed
-if ! whiptail --title "Proceed?" --yesno "Ready to begin installation with these settings?\n\nDrivers: $DRIVER_CHOICE\nLayout: $KB_LAYOUT\nTimezone: $CITY_TIMEZONE" 12 60; then
-    echo -e "${RED}Installation cancelled by user.${NC}"
-    exit 0
+# Confirm Proceed (Skip if headless)
+if [[ -z "$HEADLESS" ]]; then
+    if ! whiptail --title "Proceed?" --yesno "Ready to begin installation with these settings?\n\nDrivers: $DRIVER_CHOICE\nLayout: $KB_LAYOUT\nTimezone: $CITY_TIMEZONE" 12 60; then
+        echo -e "${RED}Installation cancelled by user.${NC}"
+        exit 0
+    fi
 fi
 
 # 2. System Detection
@@ -58,7 +66,11 @@ DEBIAN_PKGS=(stow git gh kitty steam lutris gamemode mangohud fonts-noto-cjk fon
 # Add Drivers to package lists
 case $DRIVER_CHOICE in
     AMD)
-        ARCH_PKGS+=(vulkan-radeon lib32-vulkan-radeon mesa lib32-mesa)
+        if ! pacman -Qi mesa-tkg-git &>/dev/null; then
+            ARCH_PKGS+=(vulkan-radeon lib32-vulkan-radeon mesa lib32-mesa)
+        else
+            echo -e "${BLUE}Detected mesa-tkg-git, skipping potentially conflicting Vulkan packages...${NC}"
+        fi
         FEDORA_PKGS+=(mesa-dri-drivers)
         DEBIAN_PKGS+=(mesa-vulkan-drivers)
         ;;
@@ -83,7 +95,14 @@ case $OS in
         if ! command -v yay &> /dev/null; then
             git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si --noconfirm && cd -
         fi
-        yay -S --noconfirm quickshell-git matugen-bin catppuccin-gtk-theme-mocha dracula-gtk-theme rose-pine-gtk-theme gruvbox-gtk-theme-git nordic-theme
+        # Check for Quickshell
+        QS_PKG="quickshell-git"
+        if pacman -Qi quickshell &>/dev/null || pacman -Qi quickshell-git &>/dev/null; then
+            echo -e "${BLUE}Quickshell already installed, skipping...${NC}"
+            QS_PKG=""
+        fi
+        
+        yay -S --noconfirm $QS_PKG matugen-bin catppuccin-gtk-theme-mocha dracula-gtk-theme rose-pine-gtk-theme gruvbox-gtk-theme-git nordic-theme
         ;;
     fedora)
         sudo dnf update -y

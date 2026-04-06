@@ -631,3 +631,5 @@ export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bi
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
+alias s='yay -Ss'
+alias i='yay -S'

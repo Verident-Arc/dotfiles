@@ -176,3 +176,5 @@ export SCRIPT_DIR="/home/_null/.config/hypr/scripts"
 export PATH=$PATH:/home/_null/.spicetify
 export PATH=$PATH:~/.spicetify
 export PATH=$PATH:~/.spicetify
+alias s='yay -Ss'
+alias i='yay -S'

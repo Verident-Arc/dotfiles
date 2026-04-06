@@ -1,0 +1,46 @@
+/**
+ * @name Matugen
+ * @description Dynamic theme based on wallpaper
+ * @author Gemini CLI
+ * @version 1.0.0
+ */
+
+:root {
+  --primary: #{{colors.primary.default.hex_stripped}};
+  --primary-container: #{{colors.primary_container.default.hex_stripped}};
+  --on-primary: #{{colors.on_primary.default.hex_stripped}};
+  --secondary: #{{colors.secondary.default.hex_stripped}};
+  --secondary-container: #{{colors.secondary_container.default.hex_stripped}};
+  --on-secondary: #{{colors.on_secondary.default.hex_stripped}};
+  --surface: #{{colors.surface.default.hex_stripped}};
+  --on-surface: #{{colors.on_surface.default.hex_stripped}};
+  --surface-variant: #{{colors.surface_variant.default.hex_stripped}};
+  --on-surface-variant: #{{colors.on_surface_variant.default.hex_stripped}};
+  --outline: #{{colors.outline.default.hex_stripped}};
+}
+
+/* Basic Discord Overrides */
+.theme-dark {
+  --header-primary: var(--on-surface);
+  --header-secondary: var(--on-surface-variant);
+  --text-normal: var(--on-surface);
+  --text-muted: var(--on-surface-variant);
+  --background-primary: var(--surface);
+  --background-secondary: #{{colors.surface_container_low.default.hex_stripped}};
+  --background-secondary-alt: #{{colors.surface_container.default.hex_stripped}};
+  --background-tertiary: #{{colors.surface_container_lowest.default.hex_stripped}};
+  --background-accent: var(--primary);
+  --background-floating: #{{colors.surface_container_high.default.hex_stripped}};
+  --background-modifier-hover: rgba({{colors.primary.default.hex_stripped}}, 0.1);
+  --background-modifier-active: rgba({{colors.primary.default.hex_stripped}}, 0.2);
+  --background-modifier-selected: rgba({{colors.primary.default.hex_stripped}}, 0.3);
+  --channel-textarea-background: var(--background-secondary);
+  --info-positive-text: #{{colors.primary.default.hex_stripped}};
+  --info-warning-text: #{{colors.secondary.default.hex_stripped}};
+  --info-danger-text: #{{colors.error.default.hex_stripped}};
+  --status-positive-background: #{{colors.primary.default.hex_stripped}};
+  --status-warning-background: #{{colors.secondary.default.hex_stripped}};
+  --status-danger-background: #{{colors.error.default.hex_stripped}};
+  --brand-experiment: var(--primary);
+  --brand-experiment-560: var(--primary);
+}

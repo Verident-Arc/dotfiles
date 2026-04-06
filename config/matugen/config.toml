@@ -1,0 +1,46 @@
+[config]
+reload_apps = false
+
+[templates.quickshell]
+input_path = "/home/_null/.config/hypr/scripts/quickshell/colors.json.template"
+output_path = "/tmp/qs_colors.json"
+
+[templates.kitty]
+input_path = "/home/_null/.config/matugen/templates/kitty-colors.conf.template"
+output_path = "/tmp/kitty-matugen-colors.conf"
+
+[templates.neovim]
+input_path = "/home/_null/.config/matugen/templates/nvim-colors.lua.template"
+output_path = "/home/_null/.config/nvim/matugen_colors.lua"
+
+[templates.cava]
+input_path = "/home/_null/.config/matugen/templates/cava-colors.ini.template"
+output_path = "/home/_null/.config/cava/colors"
+
+[templates.swayosd]
+input_path = "/home/_null/.config/matugen/templates/swayosd.css.template"
+output_path = "/home/_null/.config/swayosd/style.css"
+
+[templates.swaync]
+input_path = "/home/_null/.config/matugen/templates/swaync.css.template"
+output_path = "/home/_null/.config/swaync/style.css"
+
+[templates.rofi]
+input_path = "/home/_null/.config/matugen/templates/rofi.rasi.template"
+output_path = "/home/_null/.config/rofi/theme.rasi"
+
+[templates.hyprland]
+input_path = "/home/_null/.config/matugen/templates/hyprland-colors.conf.template"
+output_path = "/home/_null/.config/hypr/modules/colors.conf"
+
+[templates.vencord]
+input_path = "/home/_null/.config/matugen/templates/vencord.css.template"
+output_path = "/home/_null/.config/Vencord/themes/matugen.theme.css"
+
+[templates.gtk3]
+input_path = "/home/_null/.config/matugen/templates/gtk.css.template"
+output_path = "/home/_null/.config/gtk-3.0/gtk.css"
+
+[templates.gtk4]
+input_path = "/home/_null/.config/matugen/templates/gtk.css.template"
+output_path = "/home/_null/.config/gtk-4.0/gtk.css"

@@ -1,0 +1,32 @@
+@define-color primary #{{colors.primary.default.hex_stripped}};
+@define-color primary_container #{{colors.primary_container.default.hex_stripped}};
+@define-color on_primary #{{colors.on_primary.default.hex_stripped}};
+@define-color secondary #{{colors.secondary.default.hex_stripped}};
+@define-color secondary_container #{{colors.secondary_container.default.hex_stripped}};
+@define-color on_secondary #{{colors.on_secondary.default.hex_stripped}};
+@define-color surface #{{colors.surface.default.hex_stripped}};
+@define-color on_surface #{{colors.on_surface.default.hex_stripped}};
+@define-color surface_variant #{{colors.surface_variant.default.hex_stripped}};
+@define-color on_surface_variant #{{colors.on_surface_variant.default.hex_stripped}};
+@define-color outline #{{colors.outline.default.hex_stripped}};
+
+/* Basic GTK Overrides */
+selection_color: @primary;
+accent_color: @primary;
+accent_bg_color: @primary;
+accent_fg_color: @on_primary;
+window_bg_color: @surface;
+window_fg_color: @on_surface;
+view_bg_color: @surface;
+view_fg_color: @on_surface;
+headerbar_bg_color: #{{colors.surface_container_low.default.hex_stripped}};
+headerbar_fg_color: @on_surface;
+headerbar_border_color: @outline;
+headerbar_backdrop_color: @surface;
+card_bg_color: #{{colors.surface_container.default.hex_stripped}};
+card_fg_color: @on_surface;
+card_border_color: @outline;
+popover_bg_color: #{{colors.surface_container_high.default.hex_stripped}};
+popover_fg_color: @on_surface;
+dialog_bg_color: #{{colors.surface_container_high.default.hex_stripped}};
+dialog_fg_color: @on_surface;

@@ -1,0 +1,131 @@
+/**
+ * ROFI Wallpaper Theme (Matching theme.rasi)
+ */
+
+@import "theme.rasi"
+
+configuration {
+    modi:                        "dmenu";
+    show-icons:                  true;
+    drun-display-format:         "{name}";
+}
+
+window {
+    width:                        1200px;
+    height:                       700px;
+    location:                     center;
+    anchor:                       center;
+    fullscreen:                   false;
+    enabled:                      true;
+    border-radius:                24px;
+    cursor:                       "default";
+    background-color:             @bg-alpha;
+    border:                       2px;
+    border-color:                 rgba(255, 255, 255, 0.08);
+    transparency:                 "real";
+}
+
+mainbox {
+    enabled:                      true;
+    spacing:                      20px;
+    padding:                      30px;
+    background-color:             transparent;
+    orientation:                  horizontal;
+    children:                     [ "input-area", "listview" ];
+}
+
+/* Sidebar structure like theme.rasi */
+input-area {
+    children:                     [ "inputbar", "dummy" ];
+    background-color:             transparent;
+    orientation:                  vertical;
+    expand:                       false;
+    width:                        220px;
+    spacing:                      15px;
+}
+
+inputbar {
+    enabled:                      true;
+    spacing:                      10px;
+    padding:                      10px;
+    background-color:             @surface-alpha;
+    border-radius:                12px;
+    border:                       1px;
+    border-color:                 rgba(255, 255, 255, 0.05);
+    children:                     [ "entry" ];
+}
+
+entry {
+    enabled:                      true;
+    background-color:             transparent;
+    text-color:                   @fg-col;
+    cursor:                       text;
+    placeholder:                  "Search Wallpapers";
+    placeholder-color:            @grey;
+    horizontal-align:             0.0;
+    padding:                      4px;
+    font:                         "JetBrainsMono Nerd Font Bold 11";
+}
+
+dummy {
+    expand:                       true;
+    background-color:             transparent;
+}
+
+/* Grid layout for thumbnails */
+listview {
+    enabled:                      true;
+    columns:                      4;
+    lines:                        3;
+    cycle:                        true;
+    dynamic:                      true;
+    scrollbar:                    false;
+    layout:                       vertical;
+    reverse:                      false;
+    fixed-height:                 true;
+    fixed-columns:                true;
+    spacing:                      20px;
+    background-color:             transparent;
+    cursor:                       "default";
+}
+
+element {
+    enabled:                      true;
+    spacing:                      10px;
+    margin:                       0px;
+    padding:                      15px 5px;
+    border-radius:                16px;
+    background-color:             transparent;
+    text-color:                   @fg-col;
+    cursor:                       pointer;
+    orientation:                  vertical;
+    children:                     [ "element-icon", "element-text" ];
+}
+
+element selected {
+    background-image:             @active-grad;
+    text-color:                   @mauve;
+    border:                       1px;
+    border-color:                 @mauve;
+    border-radius:                16px;
+}
+
+element-icon {
+    enabled:                      true;
+    background-color:             transparent;
+    text-color:                   inherit;
+    size:                         180px;
+    cursor:                       inherit;
+    horizontal-align:             0.5;
+    vertical-align:               0.5;
+}
+
+element-text {
+    enabled:                      true;
+    background-color:             transparent;
+    text-color:                   inherit;
+    cursor:                       inherit;
+    vertical-align:               0.5;
+    horizontal-align:             0.5;
+    font:                         "JetBrainsMono Nerd Font 10";
+}

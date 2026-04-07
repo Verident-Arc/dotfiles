@@ -3,8 +3,8 @@
 */
 
 window#osd-container {
-    background-color: #0f1417; 
-    border: 2px solid #8bd0f0; 
+    background-color: #131318; 
+    border: 2px solid #bcc2ff; 
     border-radius: 32px; 
     padding: 24px;
     margin: 24px;
@@ -13,7 +13,7 @@ window#osd-container {
 
 /* The background "track" of the progress bar */
 trough {
-    background-color: #171c1f; 
+    background-color: #1b1b21; 
     border-radius: 99px;
     border: none;
     min-height: 12px;
@@ -22,7 +22,7 @@ trough {
 /* The filled part of the progress bar */
 progress {
     /* Primary to Secondary Gradient */
-    background-image: linear-gradient(to right, #8bd0f0, #b4cad6); 
+    background-image: linear-gradient(to right, #bcc2ff, #c4c5dd); 
     border-radius: 99px;
     border: none;
     min-height: 12px;
@@ -30,7 +30,7 @@ progress {
 
 /* Text Label styling */
 label {
-    color: #dfe3e7; 
+    color: #e4e1e9; 
     font-weight: 800;
     font-size: 18px;
     margin-bottom: 8px;
@@ -38,6 +38,6 @@ label {
 
 /* Icon styling */
 image {
-    color: #8bd0f0; 
+    color: #bcc2ff; 
     -gtk-icon-style: symbolic;
 }

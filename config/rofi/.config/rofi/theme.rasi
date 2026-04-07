@@ -1,26 +1,26 @@
 * {
     /* Matugen Generated Palette */
-    bg-col:                 #0a0f11;
-    bg-col-light:           #171c1f;
-    border-col:             #303538;
-    selected-col:           #262b2e;
-    blue:                   #8bd0f0;
-    fg-col:                 #dfe3e7;
+    bg-col:                 #0d0e13;
+    bg-col-light:           #1b1b21;
+    border-col:             #34343a;
+    selected-col:           #29292f;
+    blue:                   #bcc2ff;
+    fg-col:                 #e4e1e9;
     fg-col2:                #ffb4ab;
-    grey:                   #c0c8cd;
-    surface0:               #1b2023;
-    surface1:               #262b2e;
-    mauve:                  #8bd0f0;
-    rosewater:              #454364;
+    grey:                   #c7c5d0;
+    surface0:               #1f1f25;
+    surface1:               #29292f;
+    mauve:                  #bcc2ff;
+    rosewater:              #5e3c54;
     
     /* "Alive" Glass Colors */
     /* Matugen hex outputs #RRGGBB, appending f2/80 gives #RRGGBBAA */
-    bg-alpha:               #0a0f11f2; 
-    surface-alpha:          #262b2e80; 
+    bg-alpha:               #0d0e13f2; 
+    surface-alpha:          #29292f80; 
     
     /* GRADIENTS for "Cooler" Look */
-    active-grad:            linear-gradient(to bottom, #262b2e, #1b2023);
-    tab-grad:               linear-gradient(to right, #8bd0f0, #8bd0f0);
+    active-grad:            linear-gradient(to bottom, #29292f, #1f1f25);
+    tab-grad:               linear-gradient(to right, #bcc2ff, #bcc2ff);
 
     width: 700px;
     font: "JetBrainsMono Nerd Font 11";

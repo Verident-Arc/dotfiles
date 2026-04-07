@@ -70,6 +70,21 @@ get_kb_layout() {
     echo "$layout" | cut -c1-2 | tr '[:lower:]' '[:upper:]'
 }
 
+## ACTIVE WINDOW
+get_active_window() {
+    local title=$(hyprctl activewindow -j 2>/dev/null | jq -r '.title // empty')
+    if [ -z "$title" ] || [ "$title" = "null" ]; then
+        echo "Desktop"
+    else
+        # Truncate if too long
+        if [ ${#title} -gt 40 ]; then
+            echo "${title:0:37}..."
+        else
+            echo "$title"
+        fi
+    fi
+}
+
 ## AUDIO
 get_volume() {
     if command -v pamixer &> /dev/null; then
@@ -158,7 +173,8 @@ get_all_json() {
     "icon": "$(get_battery_icon)",
     "status": "$(get_battery_status)"
   },
-  "kb_layout": "$(get_kb_layout)"
+  "kb_layout": "$(get_kb_layout)",
+  "active_window": "$(get_active_window)"
 }
 EOF
 }

@@ -201,15 +201,6 @@ PanelWindow {
                 MouseArea { id: searchMouse; anchors.fill: parent; hoverEnabled: true; onClicked: Quickshell.execDetached(["bash", "-c", "/home/_null/.config/hypr/scripts/rofi_show.sh drun"]) }
             }
 
-            // Notifs
-            Rectangle {
-                radius: 14; Layout.preferredHeight: 48; Layout.preferredWidth: 48
-                color: notifMouse.containsMouse ? mocha.surface1 : mocha.base
-                opacity: notifMouse.containsMouse ? 0.95 : 0.75
-                Text { anchors.centerIn: parent; text: ""; font.pixelSize: 18; font.family: barWindow.defaultFont; color: notifMouse.containsMouse ? mocha.yellow : mocha.text }
-                MouseArea { id: notifMouse; anchors.fill: parent; hoverEnabled: true; onClicked: Quickshell.execDetached(["swaync-client", "-t", "-sw"]) }
-            }
-
             // Workspaces
             Rectangle {
                 color: mocha.base; opacity: 0.75; radius: 14; Layout.preferredHeight: 48
@@ -278,6 +269,33 @@ PanelWindow {
                 }
             }
 
+            // Active Window
+            Rectangle {
+                height: 48; radius: 14; color: mocha.base; opacity: 0.75
+                Layout.preferredWidth: windowTitle.implicitWidth + 30
+                visible: barWindow.sysData.active_window && barWindow.sysData.active_window !== ""
+                RowLayout {
+                    anchors.centerIn: parent; spacing: 8
+                    Text { 
+                        id: windowTitle
+                        text: barWindow.sysData.active_window || "Desktop"
+                        color: mocha.text
+                        font.family: barWindow.defaultFont
+                        font.pixelSize: 13
+                        font.weight: Font.Bold
+                    }
+                }
+            }
+
+            // Notifs
+            Rectangle {
+                radius: 14; Layout.preferredHeight: 48; Layout.preferredWidth: 48
+                color: notifMouse.containsMouse ? mocha.surface1 : mocha.base
+                opacity: notifMouse.containsMouse ? 0.95 : 0.75
+                Text { anchors.centerIn: parent; text: ""; font.pixelSize: 18; font.family: barWindow.defaultFont; color: notifMouse.containsMouse ? mocha.yellow : mocha.text }
+                MouseArea { id: notifMouse; anchors.fill: parent; hoverEnabled: true; onClicked: Quickshell.execDetached(["swaync-client", "-t", "-sw"]) }
+            }
+
             // System Pill
             Rectangle {
                 height: 48; radius: 14; color: mocha.base; opacity: 0.75
@@ -302,7 +320,17 @@ PanelWindow {
                             Text { text: barWindow.sysData.audio.icon; color: barWindow.isSoundActive ? mocha.base : mocha.text; font.family: barWindow.defaultFont }
                             Text { text: barWindow.sysData.audio.volume + "%"; color: barWindow.isSoundActive ? mocha.base : mocha.text; font.weight: Font.Black; font.family: barWindow.defaultFont }
                         }
-                        MouseArea { anchors.fill: parent; onClicked: Quickshell.execDetached(["bash", "-c", "/home/_null/.config/hypr/scripts/quickshell/sys_info.sh --toggle-mute"]) }
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            onClicked: {
+                                if (mouse.button === Qt.RightButton) {
+                                    Quickshell.execDetached(["bash", "-c", "/home/_null/.config/hypr/scripts/quickshell/sys_info.sh --toggle-mute"])
+                                } else {
+                                    Quickshell.execDetached(["bash", "-c", "/home/_null/.config/hypr/scripts/qs_manager.sh toggle audio"])
+                                }
+                            }
+                        }
                     }
                     // Battery
                     Rectangle { 

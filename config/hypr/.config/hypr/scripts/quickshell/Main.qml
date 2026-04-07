@@ -61,6 +61,8 @@ FloatingWindow {
             // Left-aligned: pinned 12px from the left edge
             "music":     { w: 700, h: 620, rx: 12, ry: 70, comp: "music/MusicPopup.qml" },
             
+            "audio":     { w: 700, h: 600, rx: mw - 720, ry: 70, comp: "audio/AudioPopup.qml" },
+
             // Right-aligned: pinned 20px from the right edge dynamically
             "network":   { w: 900, h: 700, rx: mw - 920, ry: 70, comp: "network/NetworkPopup.qml" },
             
@@ -83,7 +85,6 @@ FloatingWindow {
     }
 
     onIsVisibleChanged: {
-        if (isVisible) masterWindow.requestActivate();
     }
 
     MatugenColors {

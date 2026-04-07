@@ -8,13 +8,13 @@ FloatingWindow {
     id: masterWindow
     title: "qs-master"
     color: "transparent"
+    
+    // Starting completely hidden and off-screen
     width: 1
     height: 1
-    
-    // Always mapped to prevent Wayland from destroying the surface and Hyprland from auto-centering!
-    visible: true 
+    visible: false 
 
-    // Push it off-screen the moment the component loads using Hyprland's dispatcher
+    // Handle startup state via window rules mainly, but keep this as a fallback
     Component.onCompleted: {
         Quickshell.execDetached(["bash", "-c", `hyprctl dispatch resizewindowpixel "exact 1 1,title:^(qs-master)$" && hyprctl dispatch movewindowpixel "exact -5000 -5000,title:^(qs-master)$"`]);
     }
@@ -31,6 +31,10 @@ FloatingWindow {
     }
 
     property bool isVisible: false
+    onIsVisibleChanged: {
+        masterWindow.visible = isVisible;
+    }
+
     property string activeArg: ""
     property bool disableMorph: false 
     property bool isWallpaperTransition: false 
@@ -52,28 +56,15 @@ FloatingWindow {
         let mh = masterWindow.activeMh;
 
         let base = {
-            // Right-aligned: pinned 20px from the right edge dynamically
             "battery":   { w: 480, h: 760, rx: mw - 500, ry: 70, comp: "battery/BatteryPopup.qml" },
-            
-            // Centered horizontally dynamically based on current screen width
             "calendar":  { w: 1450, h: 750, rx: Math.floor((mw/2)-(1450/2)), ry: 70, comp: "calendar/CalendarPopup.qml" },
-            
-            // Left-aligned: pinned 12px from the left edge
             "music":     { w: 700, h: 620, rx: 12, ry: 70, comp: "music/MusicPopup.qml" },
-            
             "audio":     { w: 700, h: 600, rx: mw - 720, ry: 70, comp: "audio/AudioPopup.qml" },
-
-            // Right-aligned: pinned 20px from the right edge dynamically
             "network":   { w: 900, h: 700, rx: mw - 920, ry: 70, comp: "network/NetworkPopup.qml" },
-            
-            // Centered both horizontally and vertically
             "stewart":   { w: 800, h: 600, rx: Math.floor((mw/2)-(800/2)), ry: Math.floor((mh/2)-(600/2)), comp: "stewart/stewart.qml" },
             "monitors":  { w: 850, h: 580, rx: Math.floor((mw/2)-(850/2)), ry: Math.floor((mh/2)-(580/2)), comp: "monitors/MonitorPopup.qml" },
             "focustime": { w: 900, h: 720, rx: Math.floor((mw/2)-(900/2)), ry: Math.floor((mh/2)-(720/2)), comp: "focustime/FocusTimePopup.qml" },
-            
-            // Full width, centered vertically
             "wallpaper": { w: mw, h: 650, rx: 0, ry: Math.floor((mh/2)-(650/2)), comp: "wallpaper/WallpaperPicker.qml" },
-            
             "hidden":    { w: 1, h: 1, rx: -5000 - mx, ry: -5000 - my, comp: "" } 
         };
 
@@ -82,9 +73,6 @@ FloatingWindow {
         t.x = mx + t.rx;
         t.y = my + t.ry;
         return t;
-    }
-
-    onIsVisibleChanged: {
     }
 
     MatugenColors {
@@ -118,7 +106,6 @@ FloatingWindow {
                 anchors.fill: parent
                 focus: true
                 
-                // Key bubbling catch-all.
                 Keys.onEscapePressed: {
                     Quickshell.execDetached(["bash", Quickshell.env("HOME") + "/.config/hypr/scripts/qs_manager.sh", "close"])
                     event.accepted = true
@@ -128,7 +115,6 @@ FloatingWindow {
                     if (currentItem) currentItem.forceActiveFocus();
                 }
 
-                // Subtler transitions to respect wide layouts like the wallpaper picker
                 replaceEnter: Transition {
                     ParallelAnimation {
                         NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 400; easing.type: Easing.OutExpo }
@@ -151,7 +137,7 @@ FloatingWindow {
 
         if (newWidget === "hidden") {
             if (currentActive !== "hidden" && getLayout(currentActive)) {
-                masterWindow.morphDuration = 250; // FAST CLOSE
+                masterWindow.morphDuration = 250; 
                 masterWindow.disableMorph = false;
                 let t = getLayout(currentActive);
                 let cx = Math.floor(t.x + (t.w/2));
@@ -166,7 +152,7 @@ FloatingWindow {
             }
         } else {
             if (currentActive === "hidden") {
-                masterWindow.morphDuration = 250; // FAST INITIAL OPEN
+                masterWindow.morphDuration = 250;
                 masterWindow.disableMorph = false;
                 let t = getLayout(newWidget);
                 let cx = Math.floor(t.x + (t.w / 2));
@@ -184,7 +170,7 @@ FloatingWindow {
                 prepTimer.start();
                 
             } else {
-                masterWindow.morphDuration = 500; // SMOOTH MORPH BETWEEN WIDGETS
+                masterWindow.morphDuration = 500;
                 if (involvesWallpaper) {
                     masterWindow.disableMorph = true;
                     masterWindow.isVisible = false; 
@@ -295,7 +281,6 @@ FloatingWindow {
                 let cmd = parts[0];
                 let arg = parts.length > 1 ? parts[1] : "";
 
-                // Feed monitor dimensions dynamically into masterWindow
                 if (parts.length >= 6) {
                     masterWindow.activeMx = parseInt(parts[2]) || 0;
                     masterWindow.activeMy = parseInt(parts[3]) || 0;
@@ -325,7 +310,6 @@ FloatingWindow {
             widgetStack.clear();
             masterWindow.disableMorph = false;
             
-            // Banished safely back to the shadow realm off-screen
             let cmd = `hyprctl dispatch resizewindowpixel "exact 1 1,title:^(qs-master)$" && hyprctl dispatch movewindowpixel "exact -5000 -5000,title:^(qs-master)$"`;
             Quickshell.execDetached(["bash", "-c", cmd]);
         }
